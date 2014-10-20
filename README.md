@@ -64,11 +64,11 @@ I just couldn't leave without thanking the [i18n-tasks](https://github.com/glebm
 
 ##TODO
 
-[ ] Add a `i19.config.yml` file so it is not necessary to write all the parameters on the CLI all the time
-[ ] Substetion default `Locale::PENDING_MESSAGE` message with something smarter that emulates rails behaviour when a missing translation is found. This would have the advantage that missing.yml files could live in the repo and don't mess the application
-[ ] Support for interpolated keys such as `"language_name_#{I18n.locale}"`  in the same way I18n-tasks doeas
-[ ] Being able to run the 'update' command with unmerged missing files
-[ ] Smartify `merge` command so it plays nicely with `missing.yml` files
-[ ] Implement a function that helps you figure out if a translation key is already being used, where, and what does it translates into
-[ ] RSpec integration so you can write a test that fails when translations are missing
-[ ] GUI for translating
+- [ ] Add a `i19.config.yml` file so it is not necessary to write all the parameters on the CLI all the time
+- [ ] Substetion default `Locale::PENDING_MESSAGE` message with something smarter that emulates rails behaviour when a missing translation is found. This would have the advantage that missing.yml files could live in the repo and don't mess the application
+- [ ] Support for interpolated keys such as `"language_name_#{I18n.locale}"`  in the same way I18n-tasks doeas
+- [ ] Being able to run the 'update' command with unmerged missing files
+- [ ] Smartify `merge` command so it plays nicely with `missing.yml` files
+- [ ] Implement a function that helps you figure out if a translation key is already being used, where, and what does it translates into
+- [ ] RSpec integration so you can write a test that fails when translations are missing
+- [ ] GUI for translating
