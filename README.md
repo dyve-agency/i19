@@ -72,7 +72,7 @@ I just couldn't leave without thanking the [i18n-tasks](https://github.com/glebm
 - [ ] Implement a function that helps you figure out if a translation key is already being used, where, and what does it translates into
 - [ ] RSpec integration so you can write a test that fails when translations are missing
 - [ ] GUI for translating
-- 
+
 ## Wish list:
 ### Add support for simple form
 This is the code that we write now:
