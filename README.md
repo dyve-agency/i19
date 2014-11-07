@@ -72,6 +72,8 @@ I just couldn't leave without thanking the [i18n-tasks](https://github.com/glebm
 - [ ] Implement a function that helps you figure out if a translation key is already being used, where, and what does it translates into
 - [ ] RSpec integration so you can write a test that fails when translations are missing
 - [ ] GUI for translating
+- [ ] Make it easy to find the place of the "default"
+- [ ] Make it easy to find translations without "default"
 
 ## Wish list:
 ### Add support for simple form
