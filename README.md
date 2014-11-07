@@ -72,3 +72,21 @@ I just couldn't leave without thanking the [i18n-tasks](https://github.com/glebm
 - [ ] Implement a function that helps you figure out if a translation key is already being used, where, and what does it translates into
 - [ ] RSpec integration so you can write a test that fails when translations are missing
 - [ ] GUI for translating
+- 
+## Wish list:
+### Add support for simple form
+This is the code that we write now:
+```haml
+= simple_form_for @billing do |f|
+  = f.input :iban
+```
+To update your translation you would need to find the keys: `simple_form.labels.billing.iban`. So you could use i19 right now like this:
+```haml
+= simple_form_for @billing do |f|
+  = f.input :iban, label: t('simple_form.labels.billing.iban', default: "IBAN Code")
+```
+It would be nice if i19 gem could extend simple form behaviour to be able to write it this way:
+```haml
+= simple_form_for @billing do |f|
+  = f.input :iban, default_label_translation: "IBAN Code"
+```
