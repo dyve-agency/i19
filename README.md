@@ -1,5 +1,16 @@
 # I19 - focus on programming and forget about micromanaging your translation files
 
+## Installation
+
+Add the following to your `Gemfile`:
+
+```ruby
+gem "i19", :git => 'https://github.com/ZEITIO/i19.git'
+```
+
+Run `bundle install`
+
+
 ## The problem:
 Adding and maintaning support for different languages in applications is not very much fun. When you are programming and you write a text that will have to be translated you have two options:
 
@@ -37,17 +48,17 @@ So how exactly is I19 gonna help you ask? The idea is to support the following w
 1. Whenever you have to write some text you do it this way: `t('my_key', default:'my text')`
   1. Notice that there is no magic here. `default` is a parameter [that the I18n ruby gem accepts](https://github.com/svenfuchs/i18n/wiki/Fallbacks#providing-a-default). But `I19` will make some clever use of it.
 2. You keep coding
-3. When you are done coding you go to the console and run: `i19 update_translations`
+3. When you are done coding you go to the console and run: `bundle exec i19 update_translations`
   1. the program will scan you `app` folder in search for calls to translations
   2. add to the default_locale yaml file the translation key `my_key` with its corresponding text
   3. create a separete file `translation_pending.yml` for every locale you have and add that key too
 4. Then you should proceed to translate all the `translation_pending.yml` files (or send the to your translator)
-5. run `i19 merge` to merge the `translation_pending.yml` files into its corresponding main locale yaml file
+5. run `bundle exec i19 merge` to merge the `translation_pending.yml` files into its corresponding main locale yaml file
 
 The program will also take care of situations like:
 
 * if you update the "default" text it should update the default locale yaml file and mark the rest of locales pending
-* it should help you find similar default texts in your code base. Currently this is done via the command `i19 find_key`. But I would like to improve this workflow (not sure how, though)
+* it should help you find similar default texts in your code base. Currently this is done via the command `bundle exec i19 find_key`. But I would like to improve this workflow (not sure how, though)
 * it should help you find similar translation keys. Again, currently done via command line
 * detect and higlight conflicts such the same key having different default translations in different parts of the code
 * detect and higlight keys with no translation (either via the `default` parameter o because they are already present in the yml file)
