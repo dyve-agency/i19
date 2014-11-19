@@ -48,7 +48,7 @@ So how exactly is I19 gonna help you ask? The idea is to support the following w
 1. Whenever you have to write some text you do it this way: `t('my_key', default:'my text')`
   1. Notice that there is no magic here. `default` is a parameter [that the I18n ruby gem accepts](https://github.com/svenfuchs/i18n/wiki/Fallbacks#providing-a-default). But `I19` will make some clever use of it.
 2. You keep coding
-3. When you are done coding you go to the console and run: `bundle exec i19 update_translations`
+3. When you are done coding you go to the console and run: `bundle exec i19 update`
   1. the program will scan you `app` folder in search for calls to translations
   2. add to the default_locale yaml file the translation key `my_key` with its corresponding text
   3. create a separete file `translation_pending.yml` for every locale you have and add that key too
