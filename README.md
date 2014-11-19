@@ -63,6 +63,9 @@ The program will also take care of situations like:
 * detect and higlight conflicts such the same key having different default translations in different parts of the code
 * detect and higlight keys with no translation (either via the `default` parameter o because they are already present in the yml file)
 
+## Use example update
+`bundle exec i19 update  --default-locale=en --save`
+
 ## Current State
 This gem is still in development. I wouldn't advice anybody to try it now unless you know what you are doing (which you probably won't unless I have already explained to you a couple of things, because there is no documentation whatsover :'( ).
 
