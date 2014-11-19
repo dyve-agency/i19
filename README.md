@@ -63,7 +63,7 @@ The program will also take care of situations like:
 * detect and higlight conflicts such the same key having different default translations in different parts of the code
 * detect and higlight keys with no translation (either via the `default` parameter o because they are already present in the yml file)
 
-## Use example update
+## Use example
 `bundle exec i19 update  --default-locale=en --save`
 
 ## Current State
