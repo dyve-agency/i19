@@ -90,6 +90,20 @@ I just couldn't leave without thanking the [i18n-tasks](https://github.com/glebm
 - [ ] Make it easy to find translations without "default"
 
 ## Wish list:
+### Autogenerate yaml from ActiveRecord models
+something like this:
+
+```yml
+es:
+  actions_generic_label: Acción
+  activerecord:
+    attributes:
+      nic/basic:
+        affected_circuits: Enlaces Afectados
+        associated_client_ticket: Ticket de Cliente Asociado
+        associated_client_ticket_capacity: capacity
+```
+
 ### Add support for simple form
 This is the code that we write now:
 ```haml
