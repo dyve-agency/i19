@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)http://guides.rubygems.org/make-your-own-gem/#more-files -->
+<html lang="en-us" class="wf-aktivgroteskstd-i3-active wf-aktivgroteskstd-n2-active wf-aktivgroteskstd-n3-active wf-aktivgroteskstd-n4-active wf-aktivgroteskstd-n5-active wf-aktivgroteskstd-n8-active wf-aktivgroteskstd-i2-active wf-aktivgroteskstd-i4-active wf-aktivgroteskstd-i5-active wf-aktivgroteskstd-i7-active wf-aktivgroteskstd-i8-active wf-aktivgroteskstd-i9-active wf-aktivgroteskstd-n7-active wf-aktivgroteskstd-n9-active wf-active"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Make your own gem - RubyGems Guides</title>
+    <meta charset="utf-8">
+    <link rel="icon" href="http://guides.rubygems.org/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="http://guides.rubygems.org/favicon.icns">
+    <meta http-equiv="Description" name="Description" content="Tutorials, guides, FAQs for RubyGems package management">
+    <meta http-equiv="Keywords" name="Keywords" content="rubygems, gems, programming, ruby, packages">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" name="viewport">
+    <link href="./Make your own gem - RubyGems Guides_files/application.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" async="" src="./Make your own gem - RubyGems Guides_files/ga.js"></script><script src="./Make your own gem - RubyGems Guides_files/jquery-2.1.1.min.js"></script><style type="text/css"></style>
+    <script src="./Make your own gem - RubyGems Guides_files/mobile-nav.js" type="text/javascript"></script>
+    <script src="./Make your own gem - RubyGems Guides_files/omu5dik.js" type="text/javascript"></script>
+    <style type="text/css">.tk-aktiv-grotesk-std{font-family:"aktiv-grotesk-std",sans-serif;}</style><link rel="stylesheet" href="http://use.typekit.net/c/97c6e8/1w;aktiv-grotesk-std,2,ZHc:R:i2,ZHg:R:i3,ZHd:R:i4,ZHj:R:i5,ZHX:R:i7,ZHm:R:i8,ZHZ:R:i9,ZHb:R:n2,ZHf:R:n3,ZHk:R:n4,ZHh:R:n5,ZHW:R:n7,ZHl:R:n8,ZHY:R:n9/d?3bb2a6e53c9684ffdc9a9af11d5b2a620ecc366e1cec4c7dd51591b9440524b55ddf8d285c0472aeb41d4853bd2581aa955c11416cc16359d8d9ca834bda73e96dac2f056d8c9c96bc0178af89"><script>
+      try{Typekit.load();}catch(e){}
+    </script>
+    <script>
+      $(function() {
+        var path = window.location.pathname;
+        $('a.nav--v__link[href="'+path.substring(0, path.length -1)+'"]').addClass('is-active');
+        var header_link = $('a.header__nav-link[href="'+path.substring(0, path.length -1)+'"]');
+        if(header_link.length > 0) {
+          $('.header__nav-links a').removeClass('is-active');
+          header_link.addClass('is-active');
+        }
+      });
+    </script>
+
+    <!--[if !IE]>-->
+      <meta name="viewport" content="width=device-width">
+      <script type="text/javascript">
+        window.scrollTo(0, 1);
+      </script>
+    <!--<![endif]-->
+
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  <link rel="stylesheet" type="text/css" href="chrome-extension://pkehgijcmpdhfbdbbnkijodmdjhbjlgp/skin/socialwidgets.css"></head>
+
+  <body class="default">
+    <header class="header header--interior">
+      <div class="l-wrap--header">
+        <a class="header__logo-wrap" href="https://rubygems.org/">
+          <span class="header__logo" data-icon="⬡">⬢</span>
+          <span class="t-hidden">RubyGems</span>
+        </a>
+        <a class="header__club-sandwich" href="http://guides.rubygems.org/make-your-own-gem/#">
+          <span class="t-hidden">Navigation menu</span>
+        </a>
+
+        <div class="header__nav-links-wrap">
+          <form accept-charset="UTF-8" action="https://rubygems.org/search" class="header__search-wrap" id="main-search" method="get"><div style="display:none"><input name="utf8" type="hidden" value="✓"></div>
+            <input class="header__search" id="query" name="query" placeholder="Search Gems…" type="search">
+            <label for="query">
+              <span class="t-hidden">Search gems</span>
+            </label>
+            <input class="header__search__icon" id="search_submit" type="submit" value="⌕">
+          </form>
+
+          <nav class="header__nav-links">
+            <a class="header__nav-link" href="https://rubygems.org/gems">Gems</a>
+            <a class="header__nav-link is-active" href="http://guides.rubygems.org/">Guides</a>
+            <a class="header__nav-link" href="http://guides.rubygems.org/contributing">Contribute</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="main--interior">
+      <div class="l-wrap--b">
+        <a class="t-display page__heading" href="http://guides.rubygems.org/">Guides</a>
+        <div class="l-overflow">
+          <div class="l-col--l">
+            <div class="nav--v">
+              <a class="nav--v__link" href="http://guides.rubygems.org/rubygems-basics">RubyGems Basics</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/what-is-a-gem">What is a gem?</a>
+              <a class="nav--v__link is-active" href="http://guides.rubygems.org/make-your-own-gem">Make your own gem</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/gems-with-extensions">Gems with Extensions</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/name-your-gem">Name your gem</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/publishing">Publishing your gem</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/security">Security Practices</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/patterns">Patterns</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/specification-reference">Specification Reference</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/command-reference">Command Reference</a>
+              <a class="nav--v__link" href="http://docs.seattlerb.org/rubygems">RubyGems API</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/rubygems-org-api">RubyGems.org API</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/run-your-own-gem-server">Run your own gem server</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/resources">Resources</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/contributing">Contributing to RubyGems</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/faqs">Frequently Asked Questions</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/plugins">Plugins</a>
+              <a class="nav--v__link" href="http://guides.rubygems.org/credits">Credits</a>
+            </div>
+          </div>
+          <div class="l-colspan--r">
+            <div class="t-body">
+              <p><em class="t-gray">From start to finish, learn how to package your Ruby code in a gem.</em></p>
+
+<ul>
+  <li><a href="http://guides.rubygems.org/make-your-own-gem/#introduction">Introduction</a></li>
+  <li><a href="http://guides.rubygems.org/make-your-own-gem/#your-first-gem">Your first gem</a></li>
+  <li><a href="http://guides.rubygems.org/make-your-own-gem/#requiring-more-files">Requiring more files</a></li>
+  <li><a href="http://guides.rubygems.org/make-your-own-gem/#adding-an-executable">Adding an executable</a></li>
+  <li><a href="http://guides.rubygems.org/make-your-own-gem/#writing-tests">Writing tests</a></li>
+  <li><a href="http://guides.rubygems.org/make-your-own-gem/#documenting-your-code">Documenting your code</a></li>
+  <li><a href="http://guides.rubygems.org/make-your-own-gem/#wrapup">Wrapup</a></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Creating and publishing your own gem is simple thanks to the tools baked right
+into RubyGems. Let’s make a simple “hello world” gem, and feel free to
+play along at home! The code for the gem we’re going to make here is up
+<a href="https://github.com/qrush/hola">on GitHub</a>.</p>
+
+<h2 id="your-first-gem">Your first gem</h2>
+
+<p>I started with just one Ruby file for my <code>hola</code> gem, and the gemspec.
+You’ll need a new name for yours (maybe <code>hola_yourusername</code>) to publish it. Check the Patterns guide for
+<a href="http://guides.rubygems.org/patterns/#consistent-naming">basic recommendations</a> to follow
+when naming a gem.</p>
+
+<pre><code>% tree
+.
+├── hola.gemspec
+└── lib
+    └── hola.rb
+</code></pre>
+
+<p>Code for your package is placed within the <code>lib</code> directory. The convention is
+to have <em>one</em> Ruby file with the <em>same</em> name as your gem, since that gets
+loaded when <code>require 'hola'</code> is run. That one file is in charge of setting up
+your gem’s code and API.</p>
+
+<p>The code inside of <code>lib/hola.rb</code> is pretty bare bones. It just makes sure that you
+can see some output from the gem:</p>
+
+<pre><code>% cat lib/hola.rb
+class Hola
+  def self.hi
+    puts "Hello world!"
+  end
+end
+</code></pre>
+
+<p>The gemspec defines what’s in the gem, who made it, and the version of the gem.
+It’s also your interface to <a href="http://rubygems.org/">RubyGems.org</a>. All of the
+information you see on a gem page
+(like <a href="http://rubygems.org/gems/jekyll">jekyll</a>’s) comes from the gemspec.</p>
+
+<pre><code>% cat hola.gemspec
+Gem::Specification.new do |s|
+  s.name        = 'hola'
+  s.version     = '0.0.0'
+  s.date        = '2010-04-28'
+  s.summary     = "Hola!"
+  s.description = "A simple hello world gem"
+  s.authors     = ["Nick Quaranto"]
+  s.email       = 'nick@quaran.to'
+  s.files       = ["lib/hola.rb"]
+  s.homepage    =
+    'http://rubygems.org/gems/hola'
+  s.license       = 'MIT'
+end
+</code></pre>
+
+<blockquote>
+  <p>The description member can be much longer than you see in this example. If it
+matches <code>/^== [A-Z]/</code> then the description will be run through
+<a href="https://github.com/rdoc/rdoc">RDoc’s markup formatter</a> for display on
+the RubyGems web site. Be aware though that other consumers of the data might not
+understand this markup.</p>
+</blockquote>
+
+<p>Look familiar? The gemspec is also Ruby, so you can wrap scripts to generate
+the file names and bump the version number. There are lots of fields the
+gemspec can contain. To see them all check out the full
+<a href="http://guides.rubygems.org/specification-reference">reference</a>.</p>
+
+<p>After you have created a gemspec, you can build a gem from it. Then you can install
+the generated gem locally to test it out.</p>
+
+<pre><code>% gem build hola.gemspec
+Successfully built RubyGem
+Name: hola
+Version: 0.0.0
+File: hola-0.0.0.gem
+
+% gem install ./hola-0.0.0.gem
+Successfully installed hola-0.0.0
+1 gem installed
+</code></pre>
+
+<p>Of course, the smoke test isn’t over yet: the final step is to <code>require</code> the gem and use it:</p>
+
+<pre><code>% irb
+&gt;&gt; require 'hola'
+=&gt; true
+&gt;&gt; Hola.hi
+Hello world!
+</code></pre>
+
+<blockquote>
+  <p>If you’re using an earlier Ruby than 1.9.2, you need to start the
+session with <code>irb -rubygems</code> or require the rubygems library after
+you launch irb.</p>
+</blockquote>
+
+<p>Now you can share hola with the rest of the Ruby community. Publishing your
+gem out to RubyGems.org only takes one command, provided that you have an account on
+the site. To setup your computer with your RubyGems account:</p>
+
+<pre><code>$ curl -u qrush https://rubygems.org/api/v1/api_key.yaml &gt;
+~/.gem/credentials; chmod 0600 ~/.gem/credentials
+
+Enter host password for user 'qrush':
+</code></pre>
+
+<blockquote>
+  <p>If you’re having problems with curl, OpenSSL, or certificates, you might want to
+simply try entering the above URL in your browser’s address bar.  Your browser will
+ask you to login to RubyGems.org.  Enter your username and password.  Your browser
+will now try to download the file api_key.yaml.  Save it in ~/.gem and call it ‘credentials’</p>
+</blockquote>
+
+<p>Once this has been setup, you can push out the gem:</p>
+
+<pre><code>% gem push hola-0.0.0.gem
+Pushing gem to RubyGems.org...
+Successfully registered gem: hola (0.0.0)
+</code></pre>
+
+<p>In just a short time (usually less than a minute), your gem will be available for
+installation by anyone. You can see it <a href="https://rubygems.org/gems/hola">on the RubyGems.org site</a>
+or grab it from any computer with RubyGems installed:</p>
+
+<pre><code>% gem list -r hola
+
+*** REMOTE GEMS ***
+
+hola (0.0.0)
+
+% gem install hola
+Successfully installed hola-0.0.0
+1 gem installed
+</code></pre>
+
+<p>It’s really that easy to share code with Ruby and RubyGems.</p>
+
+<h2 id="requiring-more-files">Requiring more files</h2>
+
+<p>Having everything in one file doesn’t scale well. Let’s add some more code to
+this gem.</p>
+
+<pre><code>% cat lib/hola.rb
+class Hola
+  def self.hi(language = "english")
+    translator = Translator.new(language)
+    translator.hi
+  end
+end
+
+class Hola::Translator
+  def initialize(language)
+    @language = language
+  end
+
+  def hi
+    case @language
+    when "spanish"
+      "hola mundo"
+    else
+      "hello world"
+    end
+  end
+end
+</code></pre>
+
+<p>This file is getting pretty crowded. Let’s break out the <code>Translator</code> into a
+separate file. As mentioned before, the gem’s root file is in charge of
+loading code for the gem. The other files for a gem are usually placed in a
+directory of the same name of the gem inside of <code>lib</code>. We can split this gem
+out like so:</p>
+
+<pre><code>% tree
+.
+├── hola.gemspec
+└── lib
+    ├── hola
+    │   └── translator.rb
+    └── hola.rb
+</code></pre>
+
+<p>The <code>Translator</code> is now in <code>lib/hola</code>, which can easily be picked up with a
+<code>require</code> statement from <code>lib/hola.rb</code>. The code for the <code>Translator</code> did not
+change much:</p>
+
+<pre><code>% cat lib/hola/translator.rb
+class Translator
+  def initialize(language)
+    @language = language
+  end
+
+  def hi
+    case @language
+    when "spanish"
+      "hola mundo"
+    else
+      "hello world"
+    end
+  end
+end
+</code></pre>
+
+<p>But now the <code>hola.rb</code> file has some code to load the <code>Translator</code>:</p>
+
+<pre><code>% cat lib/hola.rb
+class Hola
+  def self.hi(language = "english")
+    translator = Translator.new(language)
+    translator.hi
+  end
+end
+
+require 'hola/translator'
+</code></pre>
+
+<blockquote>
+  <p>Gotcha:
+For newly created folder/file, do not forget to add one entry in hola.gemspec file, as shown-</p>
+</blockquote>
+
+<pre><code>% cat hola.gemspec
+Gem::Specification.new do |s|
+...
+s.files       = ["lib/hola.rb", "lib/hola/translator.rb"]
+...
+end
+</code></pre>
+
+<blockquote>
+  <p>without the above change, new folder would not be included into the installed gem.</p>
+</blockquote>
+
+<p>Let’s try this out. First, fire up <code>irb</code>:</p>
+
+<pre><code>% irb -Ilib -rhola
+irb(main):001:0&gt; Hola.hi("english")
+=&gt; "hello world"
+irb(main):002:0&gt; Hola.hi("spanish")
+=&gt; "hola mundo"
+</code></pre>
+
+<p>We need to use a strange command line flag here: <code>-Ilib</code>. Usually RubyGems
+includes the <code>lib</code> directory for you, so end users don’t need to worry about
+configuring their load paths. However, if you’re running the code outside of
+RubyGems, you have to configure things yourself. It’s possible to manipulate
+the <code>$LOAD_PATH</code> from within the code itself, but that’s considered an
+anti-pattern in most cases. There are many more anti-patterns (and good patterns!)
+for gems, explained in <a href="http://guides.rubygems.org/patterns">this guide</a>.</p>
+
+<p>If you’ve added more files to your gem, make sure to remember to add them to
+your gemspec’s <code>files</code> array before publishing a new gem! For this reason (among others),
+many developers automate this with
+<a href="https://github.com/seattlerb/hoe">Hoe</a>,
+<a href="https://github.com/technicalpickles/jeweler">Jeweler</a>,
+<a href="https://github.com/jimweirich/rake">Rake</a>,
+<a href="http://railscasts.com/episodes/245-new-gem-with-bundler">Bundler</a>, or
+<a href="https://github.com/wycats/newgem-template/blob/master/newgem.gemspec">just a dynamic gemspec
+</a>.</p>
+
+<p>Adding more directories with more code from here is pretty much the same
+process. Split your Ruby files up when it makes sense! Making a sane order for
+your project will help you and your future maintainers from headaches down the
+line.</p>
+
+<h2 id="adding-an-executable">Adding an executable</h2>
+
+<p>In addition to providing libraries of Ruby code, gems can also expose one or many
+executable files to your shell’s <code>PATH</code>. Probably the best known example of
+this is <code>rake</code>. Another very useful one is <code>prettify_json.rb</code>, included
+with the <a href="http://rubygems.org/gems/json">JSON</a> gem, which formats JSON in a
+readable manner (and is included with Ruby 1.9). Here’s an example:</p>
+
+<pre><code>% curl -s http://jsonip.com/ | \
+  prettify_json.rb
+{
+  "ip": "24.60.248.134"
+}
+</code></pre>
+
+<p>Adding an executable to a gem is a simple process. You just need to place the file in
+your gem’s <code>bin</code> directory, and then add it to the list of executables
+in the gemspec. Let’s add one for the Hola gem. First create the file
+and make it executable:</p>
+
+<pre><code>% mkdir bin
+% touch bin/hola
+% chmod a+x bin/hola
+</code></pre>
+
+<p>The executable file itself just needs a
+<a href="http://www.catb.org/jargon/html/S/shebang.html">shebang</a> in order to figure out
+what program to run it with. Here’s what Hola’s executable looks like:</p>
+
+<pre><code>% cat bin/hola
+#!/usr/bin/env ruby
+
+require 'hola'
+puts Hola.hi(ARGV[0])
+</code></pre>
+
+<p>All it’s doing is loading up the gem, and passing the first command line
+argument as the language to say hello with. Here’s an example of running it:</p>
+
+<pre><code>% ruby -Ilib ./bin/hola
+hello world
+
+% ruby -Ilib ./bin/hola spanish
+hola mundo
+</code></pre>
+
+<p>Finally, to get Hola’s executable included when you push the gem, you’ll need
+to add it in the gemspec.</p>
+
+<pre><code>% head -4 hola.gemspec
+Gem::Specification.new do |s|
+  s.name        = 'hola'
+  s.version     = '0.0.1'
+  s.executables &lt;&lt; 'hola'
+</code></pre>
+
+<p>Push up that new gem, and you’ll have your own command line utility published!
+You can add more executables as well in the <code>bin</code> directory if you need to,
+there’s an <code>executables</code> array field on the gemspec.</p>
+
+<blockquote>
+  <p>Note that you should change the gem’s version when pushing up a new release.
+For more information on gem versioning, see the <a href="http://guides.rubygems.org/patterns/#semantic-versioning">Patterns Guide</a></p>
+</blockquote>
+
+<h2 id="writing-tests">Writing tests</h2>
+
+<p>Testing your gem is extremely important. Not only does it help assure you that
+your code works, but it helps others know that your gem does its job. When
+evaluating a gem, Ruby developers tend to view a solid test suite (or lack thereof)
+as one of the main reasons for trusting that piece of code.</p>
+
+<p>Gems support adding test files into the package itself so tests can be run
+when a gem is downloaded. An entire community effort has sprung up called
+<a href="http://test.rubygems.org/">GemTesters</a> to help document how gem test suites
+run on different architectures and interpreters of Ruby.</p>
+
+<p>In short: <em>TEST YOUR GEM!</em> Please!</p>
+
+<p><code>Test::Unit</code> is Ruby’s built-in test framework. There are
+<a href="http://www.mikeperham.com/2012/09/25/minitest-ruby-1-9s-test-framework/">lots</a> of
+<a href="https://github.com/seattlerb/minitest/blob/master/README.txt">tutorials</a> for
+using it online. There are many other test frameworks available for Ruby as
+well. <a href="http://rspec.info/">RSpec</a> is a popular choice. At the end of the day,
+it doesn’t matter what you use, just <em>TEST</em>!</p>
+
+<p>Let’s add some tests to Hola. This requires adding a few more files, namely a
+<code>Rakefile</code> and a brand new <code>test</code> directory:</p>
+
+<pre><code>% tree
+.
+├── Rakefile
+├── bin
+│   └── hola
+├── hola.gemspec
+├── lib
+│   ├── hola
+│   │   └── translator.rb
+│   └── hola.rb
+└── test
+    └── test_hola.rb
+</code></pre>
+
+<p>The <code>Rakefile</code> gives you some simple automation for running tests:</p>
+
+<pre><code>% cat Rakefile
+require 'rake/testtask'
+
+Rake::TestTask.new do |t|
+  t.libs &lt;&lt; 'test'
+end
+
+desc "Run tests"
+task :default =&gt; :test
+</code></pre>
+
+<p>Now you can run <code>rake test</code> or simply just <code>rake</code> to run tests. Woot! Here’s
+a basic test file for hola:</p>
+
+<pre><code>% cat test/test_hola.rb
+require 'minitest/autorun'
+require 'hola'
+
+class HolaTest &lt; Minitest::Test
+  def test_english_hello
+    assert_equal "hello world",
+      Hola.hi("english")
+  end
+
+  def test_any_hello
+    assert_equal "hello world",
+      Hola.hi("ruby")
+  end
+
+  def test_spanish_hello
+    assert_equal "hola mundo",
+      Hola.hi("spanish")
+  end
+end
+</code></pre>
+
+<p>Finally, to run the tests:</p>
+
+<pre><code>% rake test
+(in /Users/qrush/Dev/ruby/hola)
+Loaded suite
+Started
+...
+Finished in 0.000736 seconds.
+
+3 tests, 3 assertions, 0 failures, 0 errors, 0 skips
+
+Test run options: --seed 15331
+</code></pre>
+
+<p>It’s green! Well, depending on your shell colors. For more great examples, the best thing you can do is hunt around
+<a href="https://github.com/search?utf8=%E2%9C%93&q=stars%3A%3E100+forks%3A%3E10&type=Repositories&ref=advsearch&l=Ruby">GitHub</a> and read some code.</p>
+
+<h2 id="documenting-your-code">Documenting your code</h2>
+
+<p>By default most gems use RDoc to generate docs. There are plenty of
+<a href="http://docs.seattlerb.org/rdoc/RDoc/Markup.html">great tutorials</a> for learning how
+to mark up your code with RDoc. Here’s a simple example:</p>
+
+<pre><code># The main Hola driver
+class Hola
+  # Say hi to the world!
+  #
+  # Example:
+  #   &gt;&gt; Hola.hi("spanish")
+  #   =&gt; hola mundo
+  #
+  # Arguments:
+  #   language: (String)
+
+  def self.hi(language = "english")
+    translator = Translator.new(language)
+    puts translator.hi
+  end
+end
+</code></pre>
+
+<p>Another great option for documentation is <a href="http://yardoc.org/">YARD</a>, since
+when you push a gem, <a href="http://rubydoc.info/">RubyDoc.info</a> generates YARDocs
+automatically from your gem. YARD is backwards compatible with RDoc, and it
+has a <a href="http://rubydoc.info/docs/yard/file/docs/GettingStarted.md">good
+introduction</a> on
+what’s different and how to use it.</p>
+
+<h2 id="wrapup">Wrapup</h2>
+
+<p>With this basic understanding of building your own RubyGem, we hope you’ll be
+on your way to making your own! The next few guides cover patterns in making a
+gem and the other capabilities of the RubyGems system.</p>
+
+<h2 id="credits">Credits</h2>
+
+<p>This tutorial was adapted from <a href="http://rubylearning.com/blog/2010/10/06/gem-sawyer-modern-day-ruby-warrior/">Gem Sawyer, Modern Day Ruby
+Warrior</a>.
+The code for this gem can be found <a href="https://github.com/qrush/hola">on GitHub</a>.</p>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="paginated-nav-links">
+          <a class="paginated-nav-link--prev" data-icon="&lt;" href="http://guides.rubygems.org/what-is-a-gem">
+            <span>Previous</span>
+          </a>
+          <a class="paginated-nav-link--next" data-icon="&gt;" href="http://guides.rubygems.org/gems-with-extensions">
+            <span>Next</span>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="l-wrap--footer">
+        <div class="l-overflow">
+          <div class="nav--v l-col--r--pad">
+            <a class="nav--v__link--footer" href="http://status.rubygems.org/">Status</a>
+            <a class="nav--v__link--footer" href="http://uptime.rubygems.org/">Uptime</a>
+            <a class="nav--v__link--footer" href="https://github.com/rubygems/rubygems.org" target="_blank">Code</a>
+            <a class="nav--v__link--footer" href="https://groups.google.com/forum/#!forum/rubygems-org" target="_blank">Discuss</a>
+            <a class="nav--v__link--footer" href="https://rubygems.org/stats">Stats</a>
+            <a class="nav--v__link--footer" href="http://blog.rubygems.org/">Blog</a>
+            <a class="nav--v__link--footer" href="https://rubygems.org/pages/about">About</a>
+            <a class="nav--v__link--footer" href="http://help.rubygems.org/">Help</a>
+          </div>
+          <div class="l-colspan--l colspan--l--has-border">
+            <p class="footer__about">RubyGems.org is the Ruby community’s gem hosting service. Instantly publish your gems and install them. Use the API to interact and find out more information about available gems. Become a contributor and enhance the site with your own changes.</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer__sponsors-wrap">
+        <div class="footer__sponsors">
+          <a class="footer__sponsor" href="http://rubycentral.org/" target="_blank">
+            Supported by
+            <img alt="Ruby Central" class="footer__sponsor__logo" src="./Make your own gem - RubyGems Guides_files/ruby-central.png">
+          </a>
+          <a class="footer__sponsor" href="https://www.bluebox.net/" target="_blank">
+            Hosted by
+            <img alt="Blue Box" class="footer__sponsor__logo" src="./Make your own gem - RubyGems Guides_files/bluebox.png">
+          </a>
+          <a class="footer__sponsor" href="http://dockyard.com/" target="_blank">
+            Designed by
+            <img alt="DockYard" class="footer__sponsor__logo" src="./Make your own gem - RubyGems Guides_files/dockyard.png">
+          </a>
+          <a class="footer__sponsor" href="https://dnsimple.com/" target="_blank">
+            Resolved with
+            <img alt="DNSimple" class="footer__sponsor__logo" src="./Make your own gem - RubyGems Guides_files/dnsimple.png">
+          </a>
+          <a class="footer__sponsor" href="http://newrelic.com/" target="_blank">
+            Optimized by
+            <img alt="New Relic" class="footer__sponsor__logo" src="./Make your own gem - RubyGems Guides_files/new-relic.png">
+          </a>
+          <a class="footer__sponsor" href="http://get.gaug.es/" target="_blank">
+            Tracking by
+            <img alt="Gauges" class="footer__sponsor__logo" src="./Make your own gem - RubyGems Guides_files/gauges.png">
+          </a>
+          <a class="footer__sponsor" href="https://www.runscope.com/" target="_blank">
+            Monitored by
+            <img alt="Runscope" class="footer__sponsor__logo" src="./Make your own gem - RubyGems Guides_files/runscope.png">
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-10315684-2']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  
+
+<span id="buffer-extension-hover-button" style="display: none;position: absolute;z-index: 8675309;width: 100px;height: 25px;background-image: url(chrome-extension://noojglkidnpfjbincgijbaiedldjfbhh/data/shared/img/buffer-hover-icon@2x.png);background-size: 100px 25px;opacity: 0.9;cursor: pointer;"></span></body></html>
