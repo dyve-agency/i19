@@ -95,7 +95,6 @@ something like this:
 
 ```yml
 es:
-  actions_generic_label: Acción
   activerecord:
     attributes:
       nic/basic:
