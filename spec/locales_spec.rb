@@ -153,6 +153,28 @@ describe I19::Locale do
     it "finds a deep level key" do
       expect(subject.has_key?("this.is.nested")).to eq(true)
     end
+
+    context "when key is nested but the root is not a root but actually just a translation" do
+      it "notifies an error" do
+        data = {
+          de: {
+            books: "Bücher"
+          }
+        }
+        subject = I19::Locale.new(data.keys.first, data, anything)
+        expect{ subject.has_key?("books.unread") }.to raise_error(I19::Locale::InvalidKey)
+
+        data = {
+          es: {
+            star_wars: {
+              rebellion: "Alianza Rebelde"
+            }
+          }
+        }
+        subject = I19::Locale.new(data.keys.first, data, anything)
+        expect{ subject.has_key?("star_wars.rebellion.luke_skywalker") }.to raise_error(I19::Locale::InvalidKey)
+      end
+    end
   end
 
   describe "#[]=" do

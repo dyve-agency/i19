@@ -1,4 +1,5 @@
 # encoding: UTF-8
+require 'pry'
 module I19
   class Locales
     include I19::Logging
@@ -69,6 +70,31 @@ module I19
 
   class Locale
     PENDING_MESSAGE = "I19 TRANSLATION PENDING"
+    class InvalidKey < StandardError
+      attr_accessor :searched_key, :data_key, :data_value, :yml_file_path
+      def initialize(attrs={})
+        @searched_key = attrs[:searched_key]
+        @data_key = attrs[:data_key]
+        @data_value = attrs[:data_value]
+        @yml_file_path = attrs[:yml_file_path]
+        @translated_file_path = attrs[:translated_file_path]
+      end
+
+      def to_s
+        "\n
+        [!] Conflict between keys
+        Searching for:
+          '#{@searched_key.try(:to_log) || @searched_key}'
+        But found this key:
+          '#{@data_key}'
+        In yaml file:
+          '#{@yml_file_path}'
+        With this translation instead of more nested keys:
+          '#{@data_value}'
+        You need to rename either '#{@searched_key}' or '#{@data_key}' to solve the conflict
+        "
+      end
+    end
     attr_accessor :language, :data, :source_path, :pending_data, :config
     def self.from_file(file_path)
       data = ::YAML.load(File.open(file_path)).with_indifferent_access
@@ -106,8 +132,13 @@ module I19
     end
 
     def pending?(key)
-      key = key.respond_to?(:key) ? key.key.to_s : key.to_s
-      deeply_find_hash(pending_data[language], key).present?
+      begin
+        key_str = key.respond_to?(:key) ? key.key.to_s : key.to_s
+        deeply_find_hash(pending_data[language], key_str).present?
+      rescue I19::Locale::InvalidKey => error
+        error.searched_key = key
+        raise error
+      end
     end
 
     def find_key_for_translation(str)
@@ -119,8 +150,13 @@ module I19
     end
 
     def [](key)
-      key = key.respond_to?(:key) ? key.key.to_s : key.to_s
-      deeply_find_hash(data[language], key)
+      begin
+        key_str = key.respond_to?(:key) ? key.key.to_s : key.to_s
+        deeply_find_hash(data[language], key_str)
+      rescue I19::Locale::InvalidKey => error
+        error.searched_key = key
+        raise error
+      end
     end
 
     def []=(key, value)
@@ -162,8 +198,17 @@ module I19
 
     def deeply_find_hash(hash, key)
       subtree = hash
-      key.split(".").each do |subkey|
-        subtree = subtree.fetch(subkey, {})
+      traversed_subtree = []
+      key.split(".").each_with_index do |subkey, i|
+        begin
+          subtree = subtree.fetch(subkey, {})
+          traversed_subtree << subkey
+          subtree
+        rescue NoMethodError => e
+          err = InvalidKey.new(searched_key: key, data_key: traversed_subtree.join("."), data_value: subtree, yml_file_path: source_path)
+          # puts err
+          raise err
+        end
       end
       subtree
     end
