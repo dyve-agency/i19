@@ -24,7 +24,7 @@ module I19
         else
           default_locale.add_key(key)
           locales_without_default.each{ |locale| locale.mark_as_pending(key) }
-          Event.new(level: Event::LEVEL[:success], type: :create, data: key, message: 'Creating new translatoin for the default locale. All the other locales marked as pending')
+          Event.new(level: Event::LEVEL[:success], type: :create, data: key, message: 'Creating new translation for the default locale. All the other locales marked as pending')
         end
       else #there is no default value for key
         if default_locale.has_key?(key)
